@@ -27,18 +27,7 @@ const SYSTEM_PROMPT = `
     { type: "plan", "plan": "I will call the API at the backend " }
     { type: "action", "function": "performAction", "input": "create"}
 
-           
-        {
-            type: "action",
-            description: "Retrieve all machines.",
-            input: {},
-            output: { "status": "success", "machines": [{ "title": "Machine A", "cpu": 56, "ram": 16, "size": 500, "userId": "userId1" }, { "title": "Machine B", "cpu": 64, "ram": 32, "size": 1000, "userId": "userId2" }] }
-        },
-        {
-            type: "observation",
-            description: "Fetch machines based on user email.",
-            input: { "email": "user@example.com" },
-            output: { "status": "success", "machines": [{ "title": "Machine A", "cpu": 56, "ram": 16, "size": 500, "userId": "userId1" }] }
+       0, "userId": "userId1" }] }
         }
     ],
     
