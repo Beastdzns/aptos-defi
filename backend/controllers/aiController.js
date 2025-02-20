@@ -6,7 +6,23 @@ function performAction(task) {
     // Call the appropriate API in the backend based on the task provided
     switch (task) {
         case "Create a new machine with the given details.":
-            return createNewMachine();
+            try {
+                const res = await axios.post("http://localhost:4000/machines/create", {
+                  title: cpuCores, // You might want to update this logic as needed
+                  ram,
+                  size: storage,  // You might want to update this logic as needed
+                  time: rentalTime,
+                  email: localStorage.getItem("user"),
+                });
+          
+                if (res.status === 201) {
+                  alert("Machine added successfully");
+                }
+              } catch (error) {
+                console.error("Error adding machine:", error);
+                alert("An error occurred. Please try again.");
+              }
+            break;
         case "Retrieve all machines.":
             return retrieveAllMachines();
         case "Fetch machines based on user email.":
@@ -23,13 +39,10 @@ const SYSTEM_PROMPT = `
 
     Examples: 
     START
-    { type: "user", "user": "Create a new machine with the given details." }
+    { type: "user", "user": "Create a new machine with the given details. Title: '', time:'', ram:'', size:'' " }
     { type: "plan", "plan": "I will call the API at the backend " }
     { type: "action", "function": "performAction", "input": "create"}
-
-       0, "userId": "userId1" }] }
-        }
-    ],
+    { type: "observation", "observation": "Machine created successfully." }
     
 `;
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
