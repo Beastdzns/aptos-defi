@@ -1,34 +1,37 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import dotenv from 'dotenv';
+import axios from 'axios';
 dotenv.config();
 
-function performAction(task) {
+async function performAction(task, data) {
     // Call the appropriate API in the backend based on the task provided
-    switch (task) {
-        case "Create a new machine with the given details.":
-            try {
-                const res = await axios.post("http://localhost:4000/machines/create", {
-                  title: cpuCores, // You might want to update this logic as needed
-                  ram,
-                  size: storage,  // You might want to update this logic as needed
-                  time: rentalTime,
-                  email: localStorage.getItem("user"),
+    try {
+        switch (task) {
+            case "create":
+                const createResponse = await axios.post("http://localhost:4000/machines/create", {
+                    title: data.title,
+                    ram: data.ram,
+                    size: data.size,
+                    time: data.time,
+                    email: data.email,
+                    cpu: data.cpu
                 });
-          
-                if (res.status === 201) {
-                  alert("Machine added successfully");
-                }
-              } catch (error) {
-                console.error("Error adding machine:", error);
-                alert("An error occurred. Please try again.");
-              }
-            break;
-        case "Retrieve all machines.":
-            return retrieveAllMachines();
-        case "Fetch machines based on user email.":
-            return fetchMachinesByEmail();
-        default:
-            return "Invalid task.";
+                return createResponse.data;
+
+            case "getAll":
+                const getAllResponse = await axios.get("http://localhost:4000/machines/all");
+                return getAllResponse.data;
+
+            case "getByEmail":
+                const userResponse = await axios.get(`http://localhost:4000/machines/${data.email}`);
+                return userResponse.data;
+
+            default:
+                return "Invalid task";
+        }
+    } catch (error) {
+        console.error("Error in performAction:", error);
+        throw error;
     }
 }
 
@@ -43,7 +46,18 @@ const SYSTEM_PROMPT = `
     { type: "plan", "plan": "I will call the API at the backend " }
     { type: "action", "function": "performAction", "input": "create"}
     { type: "observation", "observation": "Machine created successfully." }
-    
+
+    START
+    { type: "user", "user": "Get all machines" }
+    { type: "plan", "plan": "I will retrieve all machines from the database" }
+    { type: "action", "function": "performAction", "input": "getAll"}
+    { type: "observation", "observation": "Retrieved all machines successfully." }
+
+    START
+    { type: "user", "user": "Get machines for email: user@example.com" }
+    { type: "plan", "plan": "I will fetch machines associated with the provided email" }
+    { type: "action", "function": "performAction", "input": "getByEmail"}
+    { type: "observation", "observation": "Retrieved machines for the specified email." }
 `;
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ 
