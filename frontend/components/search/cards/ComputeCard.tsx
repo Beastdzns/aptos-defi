@@ -40,7 +40,7 @@ const {account} = useWallet();
         const reqcid = reqResponse.cid;
         
         console.log(modelcid, dscid, reqcid, machine._id, account?.address);
-        const response = await axios.post('http://localhost:4000/api/transactions', {
+        const response = await axios.post(`${process.env.PUBLIC_URL}/api/transactions`, {
             modelLink: modelcid,
             datasetLink: dscid,
             requirementsLink: reqcid,

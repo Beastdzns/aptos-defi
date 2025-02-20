@@ -8,7 +8,7 @@ async function performAction(task, data) {
     try {
         switch (task) {
             case "create":
-                const createResponse = await axios.post("http://localhost:4000/machines/create", {
+                const createResponse = await axios.post(`${process.env.PUBLIC_URL}/machines/create`, {
                     title: data.title,
                     ram: data.ram,
                     size: data.size,
@@ -19,11 +19,11 @@ async function performAction(task, data) {
                 return createResponse.data;
 
             case "getAll":
-                const getAllResponse = await axios.get("http://localhost:4000/machines/all");
+                const getAllResponse = await axios.get(`${process.env.PUBLIC_URL}/machines/all`);
                 return getAllResponse.data;
 
             case "getByEmail":
-                const userResponse = await axios.get(`http://localhost:4000/machines/${data.email}`);
+                const userResponse = await axios.get(`${process.env.PUBLIC_URL}/${data.email}`);
                 return userResponse.data;
 
             default:

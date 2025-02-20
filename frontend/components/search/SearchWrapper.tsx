@@ -12,7 +12,7 @@ export default function SearchWrapper() {
   useEffect(() => {
     const fetchMachines = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/machines/all");
+        const response = await axios.get(`${process.env.PUBLIC_URL}/machines/all`);
         const data = response.data;
         console.log("Machines:", data);
         setMachines(data.map((machine: any) => ({

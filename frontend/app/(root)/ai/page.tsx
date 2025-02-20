@@ -22,7 +22,7 @@ export default function Page() {
         setResponse(null);
 
         try {
-            const res = await fetch('http://localhost:4000/ai', {
+            const res = await fetch(`${process.env.PUBLIC_URL}/ai`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -45,7 +45,7 @@ export default function Computation() {
   const email = localStorage.getItem("user");
   const [dockerurl, setDockerUrl] = useState("");
 
-  const API_BASE_URL = `http://localhost:4000/api/request/${email}`;
+  const API_BASE_URL = `${process.env.PUBLIC_URL}/api/request/${email}`;
 
   useEffect(() => {
     fetchRequests();
@@ -71,7 +71,7 @@ export default function Computation() {
   ) => {
     setActionLoading(true);
     try {
-      const res = await axios.post(`http://localhost:4000/generatedocker`, {
+      const res = await axios.post(`${process.env.PUBLIC_URL}/generatedocker`, {
         requestId,
       });
 

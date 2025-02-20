@@ -28,7 +28,7 @@ export default function Machines() {
               // Get email from localStorage
               const email = localStorage.getItem('user');
               if (email) {
-                  const response = await axios.get(`http://localhost:4000/machines/${email}`);
+                  const response = await axios.get(`${process.env.PUBLIC_URL}/machines/${email}`);
                   setMachines(response.data);
               }
               console.log('Machines:');

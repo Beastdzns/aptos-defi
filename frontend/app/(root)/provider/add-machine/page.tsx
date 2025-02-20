@@ -38,7 +38,7 @@ export default function Page() {
     const { cpuCores, ram, storage, rentalTime } = formData;
 
     try {
-      const res = await axios.post("http://localhost:4000/machines/create", {
+      const res = await axios.post(`${process.env.PUBLIC_URL}/machines/create`, {
         title: cpuCores, // You might want to update this logic as needed
         ram,
         size: storage,  // You might want to update this logic as needed

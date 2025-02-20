@@ -14,7 +14,7 @@ interface AuthResponse {
 }
 export async function signUp(data: Register): Promise<AuthResponse> {
   try {
-    const res = await axios.post("http://localhost:4000/auth/sign-up", {
+    const res = await axios.post(`${process.env.PUBLIC_URL}/auth/sign-up`, {
       email: data.email,
       password: data.password,
       name: data.name,
@@ -35,7 +35,7 @@ export async function signUp(data: Register): Promise<AuthResponse> {
 
 export async function login(data: Login): Promise<AuthResponse> {
   try {
-    const res = await axios.post("http://localhost:4000/auth/login", {
+    const res = await axios.post(`${process.env.PUBLIC_URL}/auth/login`, {
       email: data.email,
       password: data.password,
     });
